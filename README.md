@@ -1,0 +1,1 @@
+GET https://www.mangaeden.com/api/list/[language]/
