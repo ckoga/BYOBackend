@@ -1,18 +1,27 @@
 
 exports.up = knex => {
   return knex.schema
-    .createTable('manga', table => {
+    .createTable('publishers', table => {
       table.increments('id').primary();
-      table.string('title');
+      table.string('publisher');
+      table.string('location');
       table.timestamps(true, true);
     })
-    .createTable('series', table => {
+    .createTable('mangas', table => {
       table.increments('id').primary();
-      table.string('alias');
-      table.integer()
+      table.string('title');
+      table.string('author');
+      table.string('serialization_year');
+      table.string('genres');
+      table.number('chapters');
+      table.string('status');
+      table.integer('publisher_id').unsigned();
+      table.foreign('publisher_id').references('publisher_id');
     })
 };
 
 exports.down = function(knex) {
-  
+  return knex.schema
+    .dropTable('publishers')
+    .dropTable('mangas')
 };
