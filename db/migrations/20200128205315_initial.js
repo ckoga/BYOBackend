@@ -3,7 +3,7 @@ exports.up = knex => {
   return knex.schema
     .createTable('publishers', table => {
       table.increments('id').primary();
-      table.string('publisher');
+      table.string('publisher').unique('publisher');
       table.string('location');
       table.timestamps(true, true);
     })
@@ -13,7 +13,7 @@ exports.up = knex => {
       table.string('author');
       table.string('serialization_year');
       table.string('genres');
-      table.number('chapters');
+      table.integer('chapters');
       table.string('status');
       table.integer('publisher_id').unsigned();
       table.foreign('publisher_id').references('publisher_id');
