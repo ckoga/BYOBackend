@@ -1,24 +1,19 @@
 const tableData = require('../../../tableData');
 
-const createTable = async (knex, manga) => {
+const createTable = async (knex, publisher) => {
   const publisherId = await knex('publishers').insert(
-    // add logic so that each publisher shows up once
     {
-      publisher: manga.publisher,
-      location: manga.location
-    }, 'id') // returning an id to use for relationship id  
-
-let mangaPromise = [createManga(knex, {
-  title: manga.name,
-  author: manga.author,
-  serialization_year: manga.serialization_year,
-  genres: manga.genres,
-  chapters: manga.chapters,
-  status: manga.status,
-  publisher_id: publisherId[0]
-})]
-
-  return Promise.all(mangaPromise)
+      publisher: publisher.publisher,
+      location: publisher.location
+    }, 'id')
+    
+    let mangaPromises = publisher.mangas.map(manga => {
+      return createManga(knex, {
+        mangas: manga,
+        publisher_id: publisherId[0]
+      })
+    });
+    return Promise.all(mangaPromises);
 }
 
 const createManga = (knex, comic) => {
@@ -26,14 +21,12 @@ const createManga = (knex, comic) => {
 }
 
 exports.seed = async (knex) => {
-  // Deletes ALL existing entries
   try {
     await knex('publishers').del()
     await knex('mangas').del()
 
 
-    let publisherPromises = tableData.map(manga => { // map through the data set and create a table with each publisher 
-      console.log(tableData)
+    let publisherPromises = tableData.map(manga => {
       return createTable(knex, manga)
     });
 
