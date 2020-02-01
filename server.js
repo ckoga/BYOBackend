@@ -20,7 +20,24 @@ app.get('/api/v1/publishers', async (request, response) => {
   } catch(error) {
     response.status(500).json({ error })
   }
-})
+});
+
+app.get('/api/v1/publishers/:id', async (request, response) => {
+  try {
+    const publisher = await database('publishers')
+      .where('id', request.params.id)
+      .select();
+    if(publisher.length) {
+      response.status(200).json(publisher)
+    } else {
+      response.status(404).json({
+        error: `Could not find locations with id of ${required.params.id}`
+      })
+    }
+  } catch(error) {
+    response.status(500).json({ error })
+  }
+});
 
 app.listen(app.get('port'), () => {
   console.log(
