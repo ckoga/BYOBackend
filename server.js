@@ -22,7 +22,7 @@ app.get('/api/v1/publishers', async (request, response) => {
   }
 });
 
-app.get('/api/v1/publishers/:id', async (request, response) => {
+app.get('/api/v1/publishers/:id', async (request, response) => { // would like to get the mangas from the manga table as welll, look into "linking dynmics routes (??)"
   try {
     const publisher = await database('publishers')
       .where('id', request.params.id)
@@ -55,6 +55,32 @@ app.post('/api/v1/publishers', async (request, response) => {
     const id = await database('publishers').insert(publisher, 'id')
     response.status(201).json(id[0])
   } catch(error) {
+    response.status(500).json({ error })
+  }
+});
+
+app.get('/api/v1/mangas', async (request, response) => {
+  try {
+    const mangas = await database('mangas').select();
+    response.status(200).json(mangas)
+  } catch(error) {
+    response.status(500).json({ error })
+  }
+});
+
+app.get('/api/v1/mangas/:id', async (request, response) => {
+  try {
+    const manga = await database('mangas')
+      .where('id', request.params.id)
+      .select()
+    if (manga.length) {
+      response.status(200).json(manga)
+    } else {
+      response.status(404).json({
+        error: `Could not fine the manga with id of ${request.params.id}.`
+      });
+    } 
+  } catch (error) {
     response.status(500).json({ error })
   }
 })
