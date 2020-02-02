@@ -10,7 +10,7 @@ app.set('port', process.env.PORT || 3000);
 app.locals.title = 'BYOB';
 
 app.get('/', (request, response) => {
-  response.send('hello world')
+  response.send('Welcome to the manga publishers API')
 });
 
 app.get('/api/v1/publishers', async (request, response) => {
