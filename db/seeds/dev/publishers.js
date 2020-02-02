@@ -1,7 +1,7 @@
 const tableData = require('../../../tableData');
 
-const createTable = async (knex, publisher) => {
-  const publisherId = await knex('publishers').insert(
+const createTable = async (knex, publisher) => { // create table takes in knex and a publisber from the data to seed/insert into our table
+  const publisherId = await knex('publishers').insert( 
     {
       publisher: publisher.publisher,
       location: publisher.location
