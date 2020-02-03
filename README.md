@@ -1,3 +1,21 @@
+# Build Your Own Backend
+
+https://bring-your-own-backend.herokuapp.com/
+
+A project designed to introduce backend development.
+
+## Uses
+
+If you would just like to practice fetching please look down below to see all the endpoints. For set-up and practice continue reading. 
+
+## Set-Up
+
+Clone down repo run
+```
+npm i 
+npm start
+```
+
 ## Endpoints
 
 | Purpose | URL | Verb | Request Body | Sample Success Response |
